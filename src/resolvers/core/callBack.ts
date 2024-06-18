@@ -22,7 +22,7 @@ interface CssClassNameCallbackFC {
 	): void;
 }
 
-export const resolveClassNameValuesCallback: CssClassNameCallbackFC = (
+export const resolveClassNameCallback: CssClassNameCallbackFC = (
 	{ pos1, pos2, pos3, value },
 	callback,
 	expectString,

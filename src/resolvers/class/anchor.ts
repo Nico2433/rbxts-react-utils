@@ -1,6 +1,6 @@
 import type { AnchorClassName, AnyGuiObject } from "../../types";
 import { BUILD_ENUM, type PropsBuilder } from "../../utils";
-import { resolveClassNameValues, resolveClassNameValuesCallback } from "../core";
+import { resolveClassNameCallback, resolveClassNameValues } from "../core";
 
 export const resolveAnchorClass = <T extends AnyGuiObject>(className: string, builder: PropsBuilder<T>) => {
 	builder.setKey("AnchorPoint");
@@ -13,7 +13,7 @@ export const resolveAnchorClass = <T extends AnyGuiObject>(className: string, bu
 		},
 	});
 
-	resolveClassNameValuesCallback(resolvedValues, ({ pos1, value }) => {
+	resolveClassNameCallback(resolvedValues, ({ pos1, value }) => {
 		let anchorPoint;
 
 		if (builder.hasPseudoClass) {

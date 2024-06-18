@@ -7,15 +7,3 @@ export * from "./size";
 export * from "./text";
 export * from "./transition";
 export * from "./zIndex";
-
-export enum CLASS_TYPE {
-	ANCHOR,
-	BORDER,
-	TEXT,
-	BACKGROUND,
-	PADDING,
-	POSITION,
-	SIZE,
-	Z_INDEX,
-	TRANSITION,
-}

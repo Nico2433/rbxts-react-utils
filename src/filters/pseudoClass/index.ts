@@ -4,5 +4,6 @@ import { eventsPatterns, match } from "../../utils";
 import { filterEventClassType } from "./event";
 
 export const filterPseudoClassType = <T extends AnyGuiObject>(className: string, builder: PropsBuilder<T>) => {
+	// *------------------------- FILTERS -------------------------*//
 	if (match(className, eventsPatterns)) return filterEventClassType<T>(className, builder);
 };

@@ -1,19 +1,10 @@
 import { TweenService } from "@rbxts/services";
 import type { AnyGuiObject, ResolveEventPropsType } from "../../../types";
 import { PSEUDO_CLASS, type PropsBuilder } from "../../../utils";
+import { resolveEventCallBack } from "../../core";
 
-export const resolveHoverEvent = <T extends AnyGuiObject>(className: string, builder: PropsBuilder<T>) => {
-	try {
-		const key = builder.key;
-		if (!key) throw `Key not found on hoverEvent for className: ${className}`;
-		const valueToBuild = builder.pseudoProps[key];
-		if (!valueToBuild) throw `Value not found on hoverEvent for className: ${className}`;
-
-		const buildType = builder.buildType;
-		if (!typeIs(buildType, "number")) throw `BuildType not found on hoverEvent for className: ${className}`;
-		const value = builder.build(buildType, valueToBuild as never);
-		if (!value) throw `Cannot build value on hoverEvent for className: ${className}`;
-
+export const resolveHoverEvent = <T extends AnyGuiObject>(className: string, builder: PropsBuilder<T>) =>
+	resolveEventCallBack<T, unknown>(className, builder, "hoverEvent", (key, value) => {
 		const guiInstance = builder.guiObject;
 		const initialValue = builder.finalProps[key];
 
@@ -99,7 +90,4 @@ export const resolveHoverEvent = <T extends AnyGuiObject>(className: string, bui
 		};
 
 		builder.setFinalProp("Event", newEvents);
-	} catch (err) {
-		warn(err);
-	}
-};
+	});

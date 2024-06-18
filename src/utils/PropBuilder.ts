@@ -5,7 +5,7 @@ export enum BUILD_ENUM {
 	VECTOR_2,
 }
 
-type ResolveBuildTypes<T extends BUILD_ENUM> = T extends BUILD_ENUM.VECTOR_2 ? Vector2Props : never;
+type ResolveBuildTypes<T, K extends BUILD_ENUM> = K extends BUILD_ENUM.VECTOR_2 ? Vector2Props : T;
 
 export class PropsBuilder<T extends AnyGuiObject = AnyGuiObject> {
 	finalProps: AllProps = {};
@@ -41,7 +41,7 @@ export class PropsBuilder<T extends AnyGuiObject = AnyGuiObject> {
 	setPseudoProp = <T extends BuildPropsKey>(key: T, value: NonNullable<BuildProps[T]>) =>
 		(this.pseudoProps[key] = value);
 
-	build = <T extends BUILD_ENUM>(buildType: T, value: ResolveBuildTypes<T>) => {
+	build = <T, K extends BUILD_ENUM = BUILD_ENUM>(buildType: K, value: ResolveBuildTypes<T, K>): T | undefined => {
 		let builded;
 
 		switch (buildType) {
@@ -53,11 +53,12 @@ export class PropsBuilder<T extends AnyGuiObject = AnyGuiObject> {
 
 			case BUILD_ENUM.VECTOR_2:
 				{
-					builded = new Vector2(value.x, value.y);
+					const typed = value as Vector2Props;
+					builded = new Vector2(typed.x, typed.y);
 				}
 				break;
 		}
 
-		return builded;
+		return builded as T;
 	};
 }

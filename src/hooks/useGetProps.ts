@@ -1,36 +1,41 @@
 import { useEffect, useState } from "@rbxts/react";
-import { isNecessaryProp } from "../filters";
-import { resolveClassName } from "../resolvers";
-import { resolveBuildProp, resolveEvent } from "../resolvers/core";
-import type { AllProps, AnyGuiObject, PropsObject } from "../types";
+import { filterClass, filterPseudoClassType } from "../filters";
+import type { AllProps, AnyGuiObject } from "../types";
+import { PropsBuilder, removePseudoClass } from "../utils";
 
 export const useGetProps = <T extends AnyGuiObject>(className: string, ref: React.RefObject<T>) => {
 	const [props, setProps] = useState<AllProps>({});
 
 	useEffect(() => {
 		if (!ref.current) return;
-		const classes = className.split(" ");
 
-		const instanceProps: PropsObject = {
-			lastProps: {}, // * All values to use
-			buildProps: {}, // * Last cycle values
-			tempBuildProps: {}, // * Last no event cycle values
-		};
+		const classes = className.split(" ");
+		const propsBuilder = new PropsBuilder<T>(ref.current);
 
 		for (const name of classes) {
-			const resolvedClassName = resolveClassName(name, instanceProps);
-			if (!resolvedClassName || !resolvedClassName.key) continue;
-			const { key, classType, eventType } = resolvedClassName;
-			const isEvent = typeIs(eventType, "number");
+			const { newClassName, matchs } = removePseudoClass(name);
+			if (matchs > 0) propsBuilder.setHasPseudoClass(true);
 
-			const builded = resolveBuildProp(classType, instanceProps, isEvent);
-			if (isNecessaryProp(key) && !isEvent && builded) instanceProps.lastProps[key] = builded;
+			filterClass<T>(newClassName, propsBuilder);
 
-			if (isEvent && builded)
-				resolveEvent(key, builded, eventType, instanceProps, ref.current, instanceProps.lastProps[key]);
+			const key = propsBuilder.key;
+			const hasPseudoClass = propsBuilder.hasPseudoClass;
+			const buildType = propsBuilder.buildType;
+			const hasBuildType = typeIs(buildType, "number");
+
+			if (key && hasBuildType) {
+				const build = propsBuilder.build(buildType, propsBuilder.buildProps[key as never]);
+				filterPseudoClassType<T>(name, propsBuilder);
+
+				if (!hasPseudoClass && build) propsBuilder.setFinalProp(key, build as never);
+			}
+
+			propsBuilder.clearKey();
+			propsBuilder.clearHasPseudoClass();
+			propsBuilder.clearBuildType();
 		}
 
-		setProps(instanceProps.lastProps);
+		setProps(propsBuilder.finalProps);
 	}, [className]);
 
 	return { props };

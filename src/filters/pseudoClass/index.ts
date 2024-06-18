@@ -1,13 +1,8 @@
-import type { EVENT } from "../../utils";
-import { PSEUDO_CLASS, eventsPatterns, match } from "../../utils";
+import type { AnyGuiObject } from "../../types";
+import type { PropsBuilder } from "../../utils";
+import { eventsPatterns, match } from "../../utils";
 import { filterEventClassType } from "./event";
 
-type PseudoClassType = EVENT;
-
-const handleReturn = (pseudoClassType: PSEUDO_CLASS, value: PseudoClassType | undefined) => {
-	return { pseudoType: pseudoClassType, value };
-};
-
-export const filterPseudoClassType = (className: string) => {
-	if (match(className, eventsPatterns)) return handleReturn(PSEUDO_CLASS.EVENT, filterEventClassType(className));
+export const filterPseudoClassType = <T extends AnyGuiObject>(className: string, builder: PropsBuilder<T>) => {
+	if (match(className, eventsPatterns)) return filterEventClassType<T>(className, builder);
 };

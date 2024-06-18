@@ -1,3 +1,2 @@
-export * from "./className";
-export * from "./props";
+export * from "./class";
 export * from "./pseudoClass";

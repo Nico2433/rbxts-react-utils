@@ -1,41 +1,47 @@
 import {
-	CLASS_TYPE,
+	resolveAnchorClass,
+	resolvePaddingClass,
+	resolvePositionClass,
+	resolveZIndexClass,
+} from "../../resolvers/class";
+import type { AnyGuiObject } from "../../types";
+import type { PropsBuilder } from "../../utils";
+import {
 	anchorPattern,
 	backgroundPattern,
-	borderPattern,
-	borderRadiusPattern,
+	borderPatterns,
 	match,
 	paddingPattern,
 	positionPattern,
-	sizeConstraintPattern,
-	sizePattern,
+	sizePatterns,
 	textPattern,
-	transitionDurationPattern,
 	transitionPatterns,
-	transitionTimingPattern,
 	zIndexPattern,
 } from "../../utils";
+import { filterBackgroundClassType } from "./background";
+import { filterBorderClassType } from "./border";
+import { filterSizeClassType } from "./size";
+import { filterTextClassType } from "./text";
+import { filterTransitionClassType } from "./transition";
 
-export const filterClassType = (className: string) => {
-	if (match(className, anchorPattern)) return CLASS_TYPE.ANCHOR;
+export const filterClass = <T extends AnyGuiObject>(className: string, builder: PropsBuilder<T>) => {
+	// *------------------------- FILTERS -------------------------*//
+	if (match(className, textPattern)) return filterTextClassType(className);
 
-	if (match(className, borderPattern)) return CLASS_TYPE.BORDER;
-	if (match(className, borderRadiusPattern)) return CLASS_TYPE.BORDER;
+	if (match(className, borderPatterns)) return filterBorderClassType(className);
 
-	if (match(className, textPattern)) return CLASS_TYPE.TEXT;
+	if (match(className, backgroundPattern)) return filterBackgroundClassType(className);
 
-	if (match(className, backgroundPattern)) return CLASS_TYPE.BACKGROUND;
+	if (match(className, sizePatterns)) return filterSizeClassType(className);
 
-	if (match(className, paddingPattern)) return CLASS_TYPE.PADDING;
+	if (match(className, transitionPatterns)) return filterTransitionClassType(className);
 
-	if (match(className, positionPattern)) return CLASS_TYPE.POSITION;
+	// *------------------------- RESOLVERS -------------------------*//
+	if (match(className, anchorPattern)) return resolveAnchorClass(className, builder);
 
-	if (match(className, sizePattern)) return CLASS_TYPE.SIZE;
-	if (match(className, sizeConstraintPattern)) return CLASS_TYPE.SIZE;
+	if (match(className, paddingPattern)) return resolvePaddingClass(className);
 
-	if (match(className, zIndexPattern)) return CLASS_TYPE.Z_INDEX;
+	if (match(className, positionPattern)) return resolvePositionClass(className);
 
-	if (match(className, transitionPatterns)) return CLASS_TYPE.TRANSITION;
-	if (match(className, transitionDurationPattern)) return CLASS_TYPE.TRANSITION;
-	if (match(className, transitionTimingPattern)) return CLASS_TYPE.TRANSITION;
+	if (match(className, zIndexPattern)) return resolveZIndexClass(className);
 };

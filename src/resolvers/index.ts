@@ -1,2 +1,2 @@
-export * from "./anchor";
-export * from "./className";
+export * from "./class";
+export * from "./pseudoClass";

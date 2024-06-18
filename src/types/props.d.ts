@@ -1,5 +1,5 @@
 import type { AnyGuiObject, Vector2Props, Vector2Type } from ".";
-import type { EVENT } from "../enums";
+import type { PSEUDO_CLASS } from "../utils";
 
 export interface PropsObject {
 	lastProps: AllProps;
@@ -37,7 +37,7 @@ export type PropsType<T extends AnyGuiObject = AnyGuiObject> = T extends Frame
 									? React.InstanceProps<ImageButton>
 									: AllProps;
 
-export type PropsKey<T extends AnyGuiObject = AnyGuiObject> = keyof PropsType<T>;
+export type AllPropsKey<T extends AnyGuiObject = AnyGuiObject> = keyof PropsType<T>;
 
 // *----------------- BUILD PROPS
 
@@ -54,7 +54,7 @@ export type BuildPropsKey = keyof BuildProps;
 // *----------------- CUSTOM PROPS -----------------* //
 
 export interface TweenProps {
-	type?: EVENT;
+	type?: PSEUDO_CLASS;
 	time?: number;
 	easingStyle?: Enum.EasingStyle;
 	easingDirection?: Enum.EasingDirection;

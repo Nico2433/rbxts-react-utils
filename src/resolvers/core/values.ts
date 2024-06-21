@@ -1,5 +1,4 @@
-import type { AnyGuiObject, BuildProps, BuildPropsKey, CssClassName } from "../../types";
-import type { PropsBuilder } from "../../utils";
+import type { CssClassName } from "../../types";
 import { bracketsPattern, match, parseFraction } from "../../utils";
 import type { ValueType } from "../../values";
 import { getClassNameValues, type ClassNameValue } from "../../values";
@@ -77,36 +76,4 @@ export const resolveClassValue = <T extends CssClassName, K extends ValueType = 
 	}
 
 	return { pos1: firstKey, pos2: secondKey, pos3: thirdKey, value } as CssClassNameValueReturnType<T, K>;
-};
-
-export const initializeValues = <T extends AnyGuiObject, K extends BuildPropsKey>(
-	key: K,
-	initialize: NonNullable<BuildProps[K]>,
-	builder: PropsBuilder<T>,
-) => {
-	let value = undefined;
-
-	if (builder.hasPseudoClass) {
-		if (!builder.pseudoProps[key]) {
-			value = builder.setPseudoProp(key, initialize);
-		} else {
-			value = builder.pseudoProps[key];
-		}
-	} else {
-		if (!builder.buildProps[key]) {
-			value = builder.setBuildProp(key, initialize);
-		} else {
-			value = builder.buildProps[key];
-		}
-	}
-
-	return value as NonNullable<BuildProps[K]>;
-};
-
-export const initializeOnKey = <T extends object, K extends keyof T>(obj: T, key: K, value: T[K]) => {
-	if (!obj[key]) {
-		return (obj[key] = value);
-	} else {
-		return obj[key];
-	}
 };

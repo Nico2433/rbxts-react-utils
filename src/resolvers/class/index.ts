@@ -1,5 +1,5 @@
 export * from "./anchor";
-export * from "./background";
+export * from "./color";
 export * from "./padding";
 export * from "./position";
 export * from "./size";

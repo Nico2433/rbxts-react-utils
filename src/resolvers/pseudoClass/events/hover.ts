@@ -5,7 +5,7 @@ import { eventCallback } from "../../core";
 
 export const resolveHoverEvent = <T extends AnyGuiObject>(className: string, builder: PropsBuilder<T>) =>
 	eventCallback<T, unknown>(className, builder, "Hover", (key, value) => {
-		const guiInstance = builder.guiObject;
+		const guiInstance = builder.guiInstance;
 		const initialValue = builder.finalProps[key];
 
 		let tween = TweenService.Create(guiInstance, new TweenInfo(), { [key]: value } as never);

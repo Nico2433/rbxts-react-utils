@@ -11,4 +11,6 @@ export interface SizeConstraintClassName extends CssClassName<"min" | "max"> {
 	pos2: "w" | "h";
 }
 
+export interface PositionClassName extends CssClassName<"inset" | "top" | "right" | "bottom" | "left", "x" | "y"> {}
+
 export interface TransitionTimingClassName extends CssClassName<"ease", "linear" | "in" | "out", "out"> {}

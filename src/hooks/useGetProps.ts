@@ -52,7 +52,7 @@ export const useGetProps = <T extends AnyGuiObject>(className: string, ref: Reac
 
 					if (!hasPseudoClass && build) propsBuilder.setFinalChildProp(childKey, build as never);
 				} else if (key) {
-					const props = hasPseudoClass ? propsBuilder.buildProps : propsBuilder.pseudoProps;
+					const props = hasPseudoClass ? propsBuilder.pseudoProps : propsBuilder.buildProps;
 					const build = propsBuilder.build(buildType, props[key]);
 
 					filterPseudoClassType<T>(name, propsBuilder);

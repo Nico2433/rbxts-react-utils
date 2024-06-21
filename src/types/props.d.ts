@@ -1,4 +1,4 @@
-import type { AnyGuiObject, Udim2Props, Udim2Type, Vector2Props, Vector2Type } from ".";
+import type { AnyGuiObject, Color3Type, Udim2Props, Udim2Type, Vector2Props, Vector2Type } from ".";
 import type { PSEUDO_CLASS } from "../utils";
 
 export interface PropsObject {
@@ -37,15 +37,21 @@ export type PropsType<T extends AnyGuiObject = AnyGuiObject> = T extends Frame
 									? React.InstanceProps<ImageButton>
 									: AllProps;
 
-export type AllPropsKey<T extends AnyGuiObject = AnyGuiObject> = keyof PropsType<T>;
+export type AllPropsKey = keyof AllProps;
 
 // *----------------- BUILD PROPS
 
 type ResolveBuildPropsType<T> = {
-	[K in keyof T]: T[K] extends Vector2Type ? Vector2Props : T[K] extends Udim2Type ? Udim2Props : T[K];
+	[K in keyof T]: T[K] extends Vector2Type
+		? Vector2Props
+		: T[K] extends Udim2Type
+			? Udim2Props
+			: T[K] extends Color3Type
+				? string
+				: T[K];
 };
 
-export type BuildProps<T extends AnyGuiObject = AnyGuiObject> = ResolveBuildPropsType<PropsType<T>> & {
+export type BuildProps = ResolveBuildPropsType<AllProps> & {
 	Tween?: TweenProps[];
 };
 

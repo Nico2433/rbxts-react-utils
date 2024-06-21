@@ -1,3 +1,5 @@
+export * from "./color";
+
 export type ValueType = string | number;
 
 export interface ClassNameValue {

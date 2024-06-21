@@ -25,11 +25,11 @@ import { filterTransitionClassType } from "./transition";
 
 export const filterClass = (className: string, builder: PropsBuilder) => {
 	// *------------------------- FILTERS -------------------------*//
-	if (match(className, textPattern)) return filterTextClassType(className);
+	if (match(className, textPattern)) return filterTextClassType(className, builder);
 
 	if (match(className, borderPatterns)) return filterBorderClassType(className);
 
-	if (match(className, backgroundPattern)) return filterBackgroundClassType(className);
+	if (match(className, backgroundPattern)) return filterBackgroundClassType(className, builder);
 
 	if (match(className, sizePatterns)) return filterSizeClassType(className, builder);
 
@@ -40,7 +40,7 @@ export const filterClass = (className: string, builder: PropsBuilder) => {
 
 	if (match(className, paddingPattern)) return resolvePaddingClass(className);
 
-	if (match(className, positionPattern)) return resolvePositionClass(className);
+	if (match(className, positionPattern)) return resolvePositionClass(className, builder);
 
 	if (match(className, zIndexPattern)) return resolveZIndexClass(className);
 };

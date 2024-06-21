@@ -16,12 +16,13 @@ export enum BUILD_ENUM {
 	IGNORE,
 	VECTOR_2,
 	UDIM_2,
+	COLOR_3,
 }
 
 type ResolveBuildTypes<T, K extends BUILD_ENUM> = K extends BUILD_ENUM.VECTOR_2 ? Vector2Props : T;
 
 export class PropsBuilder<T extends AnyGuiObject = AnyGuiObject> {
-	guiObject: T;
+	guiInstance: T;
 
 	buildType?: BUILD_ENUM;
 	buildedValue: unknown;
@@ -39,7 +40,7 @@ export class PropsBuilder<T extends AnyGuiObject = AnyGuiObject> {
 	childKey?: ChildPropsKey;
 
 	constructor(guiObject: T) {
-		this.guiObject = guiObject;
+		this.guiInstance = guiObject;
 	}
 
 	clearAll = () => {
@@ -106,9 +107,39 @@ export class PropsBuilder<T extends AnyGuiObject = AnyGuiObject> {
 					builded = new UDim2(typed.xScale, typed.xOffset, typed.yScale, typed.yOffset);
 				}
 				break;
+
+			case BUILD_ENUM.COLOR_3: {
+				const typed = value as string;
+				builded = Color3.fromHex(typed);
+			}
 		}
 
 		this.buildedValue = builded;
 		return builded as T;
+	};
+
+	initializeValues = <T extends BuildPropsKey>(key: T, initialize: NonNullable<BuildProps[T]>) => {
+		let value = undefined;
+
+		if (this.hasPseudoClass) {
+			if (!this.pseudoProps[key]) {
+				value = this.setPseudoProp(key, initialize);
+			} else {
+				value = this.pseudoProps[key];
+			}
+		} else {
+			if (!this.buildProps[key]) {
+				value = this.setBuildProp(key, initialize);
+			} else {
+				value = this.buildProps[key];
+			}
+		}
+
+		return value as NonNullable<BuildProps[T]>;
+	};
+
+	getProps = () => {
+		if (this.hasPseudoClass) return this.pseudoProps;
+		return this.buildProps;
 	};
 }

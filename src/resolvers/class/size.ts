@@ -1,6 +1,6 @@
 import type { SizeClassName, SizeConstraintClassName } from "../../types";
 import { BUILD_ENUM, type PropsBuilder } from "../../utils";
-import { classValueCallback, initializeValues, resolveClassValue } from "../core";
+import { classValueCallback, resolveClassValue } from "../core";
 
 export const resolveSizeClass = (className: string, builder: PropsBuilder) => {
 	builder.setKey("Size");
@@ -9,16 +9,12 @@ export const resolveSizeClass = (className: string, builder: PropsBuilder) => {
 	const resolvedValues = resolveClassValue<SizeClassName>(className);
 
 	classValueCallback(resolvedValues, ({ pos1, value }, isPercent) => {
-		const size = initializeValues(
-			"Size",
-			{
-				xScale: 0,
-				xOffset: 0,
-				yScale: 0,
-				yOffset: 0,
-			},
-			builder,
-		);
+		const size = builder.initializeValues("Size", {
+			xScale: 0,
+			xOffset: 0,
+			yScale: 0,
+			yOffset: 0,
+		});
 
 		switch (pos1) {
 			case "w":

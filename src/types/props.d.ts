@@ -1,4 +1,4 @@
-import type { AnyGuiObject, Vector2Props, Vector2Type } from ".";
+import type { AnyGuiObject, Udim2Props, Udim2Type, Vector2Props, Vector2Type } from ".";
 import type { PSEUDO_CLASS } from "../utils";
 
 export interface PropsObject {
@@ -41,8 +41,8 @@ export type AllPropsKey<T extends AnyGuiObject = AnyGuiObject> = keyof PropsType
 
 // *----------------- BUILD PROPS
 
-type ResolveBuildPropsType<T extends PropsType> = {
-	[K in keyof T]: T[K] extends Vector2Type ? Vector2Props : T[K];
+type ResolveBuildPropsType<T> = {
+	[K in keyof T]: T[K] extends Vector2Type ? Vector2Props : T[K] extends Udim2Type ? Udim2Props : T[K];
 };
 
 export type BuildProps<T extends AnyGuiObject = AnyGuiObject> = ResolveBuildPropsType<PropsType<T>> & {
@@ -50,6 +50,19 @@ export type BuildProps<T extends AnyGuiObject = AnyGuiObject> = ResolveBuildProp
 };
 
 export type BuildPropsKey = keyof BuildProps;
+
+// *----------------- CHILD PROPS
+
+export interface ChildProps {
+	MinSize?: Vector2;
+	MaxSize?: Vector2;
+}
+
+export type ChildPropsKey = keyof ChildProps;
+
+export type ChildBuildProps<T extends ChildProps = ChildProps> = ResolveBuildPropsType<T>;
+
+export type ChildBuildPropsKey = keyof ChildBuildProps;
 
 // *----------------- CUSTOM PROPS -----------------* //
 

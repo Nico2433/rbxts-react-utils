@@ -1,51 +1,93 @@
-import type { AllProps, AllPropsKey, AnyGuiObject, BuildProps, BuildPropsKey, Vector2Props } from "../types";
+import type {
+	AllProps,
+	AllPropsKey,
+	AnyGuiObject,
+	BuildProps,
+	BuildPropsKey,
+	ChildBuildProps,
+	ChildBuildPropsKey,
+	ChildProps,
+	ChildPropsKey,
+	Udim2Props,
+	Vector2Props,
+} from "../types";
 
 export enum BUILD_ENUM {
-	NO_NEED,
+	IGNORE,
 	VECTOR_2,
+	UDIM_2,
 }
 
 type ResolveBuildTypes<T, K extends BUILD_ENUM> = K extends BUILD_ENUM.VECTOR_2 ? Vector2Props : T;
 
 export class PropsBuilder<T extends AnyGuiObject = AnyGuiObject> {
+	guiObject: T;
+
+	buildType?: BUILD_ENUM;
+	buildedValue: unknown;
+
 	finalProps: AllProps = {};
 	buildProps: BuildProps = {};
 	pseudoProps: BuildProps = {};
 
-	guiObject: T;
-	key: AllPropsKey | undefined;
-	hasPseudoClass: boolean | undefined;
-	buildType: BUILD_ENUM | undefined;
+	key?: AllPropsKey;
+	hasPseudoClass?: boolean;
+
+	finalChildProps: ChildProps = {};
+	buildChildProps: ChildBuildProps = {};
+
+	childKey?: ChildPropsKey;
 
 	constructor(guiObject: T) {
 		this.guiObject = guiObject;
 	}
 
-	setKey = (value: AllPropsKey) => (this.key = value);
+	clearAll = () => {
+		this.clearLast();
+		this.finalProps = {};
+		this.buildProps = {};
+		this.pseudoProps = {};
+		this.finalChildProps = {};
+		this.buildChildProps = {};
+	};
 
-	clearKey = () => (this.key = undefined);
+	clearLast = () => {
+		this.key = undefined;
+		this.childKey = undefined;
+		this.hasPseudoClass = undefined;
+		this.buildType = undefined;
+		this.buildedValue = undefined;
+	};
+
+	setKey = (value: AllPropsKey) => (this.key = value);
 
 	setHasPseudoClass = (value: boolean) => (this.hasPseudoClass = value);
 
-	clearHasPseudoClass = () => (this.hasPseudoClass = false);
-
 	setBuildType = (buildType: BUILD_ENUM) => (this.buildType = buildType);
-
-	clearBuildType = () => (this.buildType = undefined);
 
 	setFinalProp = <T extends AllPropsKey>(key: T, value: NonNullable<AllProps[T]>) => (this.finalProps[key] = value);
 
-	setBuildProp = <T extends BuildPropsKey>(key: T, value: NonNullable<BuildProps[T]>) =>
-		(this.buildProps[key] = value);
+	setBuildProp = <T extends BuildPropsKey>(key: T, value: NonNullable<BuildProps[T]>) => {
+		this.pseudoProps[key] = value;
+		return (this.buildProps[key] = value);
+	};
 
 	setPseudoProp = <T extends BuildPropsKey>(key: T, value: NonNullable<BuildProps[T]>) =>
 		(this.pseudoProps[key] = value);
 
-	build = <T, K extends BUILD_ENUM = BUILD_ENUM>(buildType: K, value: ResolveBuildTypes<T, K>): T | undefined => {
+	setChildKey = (value: ChildPropsKey) => (this.childKey = value);
+
+	setFinalChildProp = <T extends ChildPropsKey>(key: T, value: NonNullable<ChildProps[T]>) =>
+		(this.finalChildProps[key] = value);
+
+	setChildBuildProp = <T extends ChildBuildPropsKey>(key: T, value: NonNullable<ChildBuildProps[T]>) =>
+		(this.buildChildProps[key] = value);
+
+	build = <T, K extends BUILD_ENUM = BUILD_ENUM>(buildType: K, value: ResolveBuildTypes<T, K>): T => {
 		let builded;
 
 		switch (buildType) {
-			case BUILD_ENUM.NO_NEED:
+			case BUILD_ENUM.IGNORE:
 				{
 					builded = value;
 				}
@@ -57,8 +99,16 @@ export class PropsBuilder<T extends AnyGuiObject = AnyGuiObject> {
 					builded = new Vector2(typed.x, typed.y);
 				}
 				break;
+
+			case BUILD_ENUM.UDIM_2:
+				{
+					const typed = value as Udim2Props;
+					builded = new UDim2(typed.xScale, typed.xOffset, typed.yScale, typed.yOffset);
+				}
+				break;
 		}
 
+		this.buildedValue = builded;
 		return builded as T;
 	};
 }

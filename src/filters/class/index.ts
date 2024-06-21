@@ -4,7 +4,6 @@ import {
 	resolvePositionClass,
 	resolveZIndexClass,
 } from "../../resolvers/class";
-import type { AnyGuiObject } from "../../types";
 import type { PropsBuilder } from "../../utils";
 import {
 	anchorPattern,
@@ -24,7 +23,7 @@ import { filterSizeClassType } from "./size";
 import { filterTextClassType } from "./text";
 import { filterTransitionClassType } from "./transition";
 
-export const filterClass = <T extends AnyGuiObject>(className: string, builder: PropsBuilder<T>) => {
+export const filterClass = (className: string, builder: PropsBuilder) => {
 	// *------------------------- FILTERS -------------------------*//
 	if (match(className, textPattern)) return filterTextClassType(className);
 
@@ -32,7 +31,7 @@ export const filterClass = <T extends AnyGuiObject>(className: string, builder: 
 
 	if (match(className, backgroundPattern)) return filterBackgroundClassType(className);
 
-	if (match(className, sizePatterns)) return filterSizeClassType(className);
+	if (match(className, sizePatterns)) return filterSizeClassType(className, builder);
 
 	if (match(className, transitionPatterns)) return filterTransitionClassType(className);
 

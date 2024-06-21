@@ -1,10 +1,10 @@
 import { TweenService } from "@rbxts/services";
 import type { AnyGuiObject, ResolveEventPropsType } from "../../../types";
 import { PSEUDO_CLASS, type PropsBuilder } from "../../../utils";
-import { resolveEventCallBack } from "../../core";
+import { eventCallback } from "../../core";
 
 export const resolveHoverEvent = <T extends AnyGuiObject>(className: string, builder: PropsBuilder<T>) =>
-	resolveEventCallBack<T, unknown>(className, builder, "hoverEvent", (key, value) => {
+	eventCallback<T, unknown>(className, builder, "Hover", (key, value) => {
 		const guiInstance = builder.guiObject;
 		const initialValue = builder.finalProps[key];
 

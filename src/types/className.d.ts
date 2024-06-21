@@ -6,4 +6,9 @@ export interface CssClassName<T extends string = string, K extends string = stri
 
 export interface AnchorClassName extends CssClassName<"a" | "ax" | "ay"> {}
 
+export interface SizeClassName extends CssClassName<"size" | "w" | "h"> {}
+export interface SizeConstraintClassName extends CssClassName<"min" | "max"> {
+	pos2: "w" | "h";
+}
+
 export interface TransitionTimingClassName extends CssClassName<"ease", "linear" | "in" | "out", "out"> {}

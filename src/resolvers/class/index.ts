@@ -1,5 +1,7 @@
 export * from "./anchor";
+export * from "./border";
 export * from "./color";
+export * from "./opacity";
 export * from "./padding";
 export * from "./position";
 export * from "./size";

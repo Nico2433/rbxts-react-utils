@@ -14,3 +14,9 @@ export interface SizeConstraintClassName extends CssClassName<"min" | "max"> {
 export interface PositionClassName extends CssClassName<"inset" | "top" | "right" | "bottom" | "left", "x" | "y"> {}
 
 export interface TransitionTimingClassName extends CssClassName<"ease", "linear" | "in" | "out", "out"> {}
+
+export interface TextAlignClassName extends CssClassName<"text"> {
+	pos2: "left" | "center" | "right";
+}
+
+export interface PaddingClassName extends CssClassName<"p" | "px" | "py" | "pt" | "pr" | "pb" | "pl"> {}

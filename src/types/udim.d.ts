@@ -7,7 +7,9 @@ export interface Udim2Props {
 	yOffset: number;
 }
 
-export interface UdimParams {
+export type UdimType = UDim | React.Binding<UDim> | undefined;
+
+export interface UdimProps {
 	scale?: number;
 	offset?: number;
 }

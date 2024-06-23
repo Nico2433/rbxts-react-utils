@@ -1,32 +1,36 @@
-import { BUILD_ENUM, CssConfig, type PropsBuilder } from "../../utils";
+import CssConfig from "../../CssConfig";
+import { BUILD_ENUM, type PropsBuilder } from "../../utils";
 import { classValueCallback, resolveClassValue } from "../core";
 
-export const resolveColorClass = (className: string, builder: PropsBuilder, apply?: "text" | "image") => {
+export const resolveColorClass = (className: string, builder: PropsBuilder, apply?: "text" | "image" | "border") => {
 	builder.setBuildType(BUILD_ENUM.COLOR_3);
 
 	const resolvedValues = resolveClassValue(className, {
-		providedValues: CssConfig.values.colors,
+		providedValues: CssConfig.getValues("colors"),
 	});
 
 	classValueCallback(
 		resolvedValues,
 		({ value }) => {
-			const props = builder.getProps();
-
 			switch (apply) {
 				case "text": {
 					builder.setKey("TextColor3");
-					return (props.TextColor3 = value);
+					return builder.setBuildProp("TextColor3", value);
 				}
 
 				case "image": {
 					builder.setKey("ImageColor3");
-					return (props.ImageColor3 = value);
+					return builder.setBuildProp("ImageColor3", value);
+				}
+
+				case "border": {
+					builder.setKey("BorderColor3");
+					return builder.setBuildProp("BorderColor3", value);
 				}
 
 				default: {
 					builder.setKey("BackgroundColor3");
-					return (props.BackgroundColor3 = value);
+					return builder.setBuildProp("BackgroundColor3", value);
 				}
 			}
 		},

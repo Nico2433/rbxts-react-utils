@@ -1,4 +1,5 @@
 export * from "./frame";
+export * from "./label";
 
 export type AnyGuiObject =
 	| Frame

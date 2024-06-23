@@ -1,1 +1,2 @@
-export * from "./useGetProps";
+export * from "./useGetCssProps";
+export * from "./useGetEvents";

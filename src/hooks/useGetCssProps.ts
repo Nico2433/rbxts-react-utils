@@ -28,7 +28,7 @@ const reducer = (state: State, action: Action) => {
 	}
 };
 
-export const useGetProps = <T extends AnyGuiObject>(className: string, ref: React.RefObject<T>) => {
+export const useGetCssProps = <T extends AnyGuiObject>(className: string, ref: React.RefObject<T>) => {
 	const [state, dispatch] = useReducer(reducer, initialState);
 
 	useEffect(() => {
@@ -48,11 +48,17 @@ export const useGetProps = <T extends AnyGuiObject>(className: string, ref: Reac
 
 			if (hasBuildType) {
 				if (childKey) {
-					const build = propsBuilder.build(buildType, propsBuilder.buildChildProps[childKey]);
-
-					if (!hasPseudoClass && build) propsBuilder.setFinalChildProp(childKey, build as never);
+					if (typeIs(childKey, "string")) {
+						const build = propsBuilder.build(buildType, propsBuilder.buildChildProps[childKey]);
+						if (!hasPseudoClass && build) propsBuilder.setFinalChildProp(childKey, build as never);
+					} else {
+						for (const key of childKey) {
+							const build = propsBuilder.build(buildType, propsBuilder.buildChildProps[key]);
+							if (!hasPseudoClass && build) propsBuilder.setFinalChildProp(key, build as never);
+						}
+					}
 				} else if (key) {
-					const props = hasPseudoClass ? propsBuilder.pseudoProps : propsBuilder.buildProps;
+					const props = propsBuilder.getProps();
 					const build = propsBuilder.build(buildType, props[key]);
 
 					filterPseudoClassType<T>(name, propsBuilder);
@@ -64,7 +70,7 @@ export const useGetProps = <T extends AnyGuiObject>(className: string, ref: Reac
 			propsBuilder.clearLast();
 		}
 
-		dispatch({ payload: propsBuilder.finalProps });
+		dispatch({ payload: { ...propsBuilder.finalProps } });
 		dispatch({ type: "ChildProps", payload: propsBuilder.finalChildProps });
 		propsBuilder.clearAll();
 	}, [className]);

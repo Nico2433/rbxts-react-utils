@@ -9,12 +9,14 @@ import type {
 	ChildProps,
 	ChildPropsKey,
 	Udim2Props,
+	UdimProps,
 	Vector2Props,
 } from "../types";
 
 export enum BUILD_ENUM {
 	IGNORE,
 	VECTOR_2,
+	UDIM,
 	UDIM_2,
 	COLOR_3,
 }
@@ -37,7 +39,7 @@ export class PropsBuilder<T extends AnyGuiObject = AnyGuiObject> {
 	finalChildProps: ChildProps = {};
 	buildChildProps: ChildBuildProps = {};
 
-	childKey?: ChildPropsKey;
+	childKey?: ChildPropsKey | ChildPropsKey[];
 
 	constructor(guiObject: T) {
 		this.guiInstance = guiObject;
@@ -76,7 +78,7 @@ export class PropsBuilder<T extends AnyGuiObject = AnyGuiObject> {
 	setPseudoProp = <T extends BuildPropsKey>(key: T, value: NonNullable<BuildProps[T]>) =>
 		(this.pseudoProps[key] = value);
 
-	setChildKey = (value: ChildPropsKey) => (this.childKey = value);
+	setChildKey = (value: ChildPropsKey | ChildPropsKey[]) => (this.childKey = value);
 
 	setFinalChildProp = <T extends ChildPropsKey>(key: T, value: NonNullable<ChildProps[T]>) =>
 		(this.finalChildProps[key] = value);
@@ -98,6 +100,13 @@ export class PropsBuilder<T extends AnyGuiObject = AnyGuiObject> {
 				{
 					const typed = value as Vector2Props;
 					builded = new Vector2(typed.x, typed.y);
+				}
+				break;
+
+			case BUILD_ENUM.UDIM:
+				{
+					const typed = value as UdimProps;
+					builded = new UDim(typed.scale, typed.offset);
 				}
 				break;
 

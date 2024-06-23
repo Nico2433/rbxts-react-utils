@@ -1,4 +1,6 @@
+export * from "./border";
 export * from "./color";
+export * from "./size";
 
 export type ValueType = string | number;
 

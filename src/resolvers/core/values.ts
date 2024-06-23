@@ -1,5 +1,5 @@
 import type { CssClassName } from "../../types";
-import { bracketsPattern, match, parseFraction } from "../../utils";
+import { match, parseFraction } from "../../utils";
 import type { ValueType } from "../../values";
 import { getClassNameValues, type ClassNameValue } from "../../values";
 
@@ -27,7 +27,7 @@ export const resolveClassValue = <T extends CssClassName, K extends ValueType = 
 
 	if (expectedValue) {
 		// *-------- Removes Brackets
-		expectedValue = expectedValue.gsub(bracketsPattern, "")[0];
+		expectedValue = expectedValue.gsub("[%[%]]", "")[0];
 		const matchedBars = match(expectedValue, "/") ? true : false;
 
 		// *-------- Get provided values

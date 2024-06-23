@@ -1,17 +1,17 @@
 import React, { useRef } from "react";
 import { useGetCssProps, useMergeEvents } from "../hooks";
-import type { ReactFrame } from "../types";
+import type { ReactTextLabel } from "../types";
 import { deleteUnusedProps } from "../utils";
 import { UiCorner, UiPadding, UiSizeConstraint } from "./ui";
 
-const Frame: React.FC<Readonly<ReactFrame>> = (props) => {
+const TextLabel: React.FC<Readonly<ReactTextLabel>> = (props) => {
 	const className = props.className ?? "";
-	const ref = props.forwardRef ?? useRef<Frame>();
+	const ref = props.forwardRef ?? useRef<TextLabel>();
 
 	const passedProps = table.clone(props);
 
-	const { cssProps, childProps } = useGetCssProps<Frame>(className, ref);
-	const { mergedEvents } = useMergeEvents<Frame>(props, cssProps.Event);
+	const { cssProps, childProps } = useGetCssProps<TextLabel>(className, ref);
+	const { mergedEvents } = useMergeEvents<TextLabel>(passedProps, cssProps.Event);
 	deleteUnusedProps(passedProps);
 
 	const totalEvents = {
@@ -20,7 +20,7 @@ const Frame: React.FC<Readonly<ReactFrame>> = (props) => {
 	};
 
 	return (
-		<frame ref={ref} {...cssProps} {...passedProps} Event={totalEvents}>
+		<textlabel ref={ref} {...cssProps} {...passedProps} Event={totalEvents}>
 			{passedProps.children}
 			<UiSizeConstraint MinSize={childProps.MinSize} MaxSize={childProps.MaxSize} />
 			<UiCorner CornerRadius={childProps.CornerRadius} />
@@ -30,8 +30,8 @@ const Frame: React.FC<Readonly<ReactFrame>> = (props) => {
 				PaddingBottom={childProps.PaddingBottom}
 				PaddingRight={childProps.PaddingRight}
 			/>
-		</frame>
+		</textlabel>
 	);
 };
 
-export default Frame;
+export default TextLabel;

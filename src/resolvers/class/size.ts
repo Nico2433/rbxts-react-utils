@@ -1,45 +1,70 @@
+import CssConfig from "../../CssConfig";
 import type { SizeClassName, SizeConstraintClassName } from "../../types";
 import { BUILD_ENUM, type PropsBuilder } from "../../utils";
 import { classValueCallback, resolveClassValue } from "../core";
 
-export const resolveSizeClass = (className: string, builder: PropsBuilder) => {
-	builder.setKey("Size");
-	builder.setBuildType(BUILD_ENUM.UDIM_2);
+export const resolveSizeClass = (className: string, builder: PropsBuilder, auto?: boolean) => {
+	if (auto) {
+		builder.setKey("AutomaticSize");
+		builder.setBuildType(BUILD_ENUM.IGNORE);
 
-	const resolvedValues = resolveClassValue<SizeClassName>(className);
+		const resolvedValues = resolveClassValue<SizeClassName>(className);
 
-	classValueCallback(resolvedValues, ({ pos1, value }, isPercent) => {
-		const size = builder.initializeValues("Size", {
-			xScale: 0,
-			xOffset: 0,
-			yScale: 0,
-			yOffset: 0,
+		classValueCallback(resolvedValues, ({ pos1 }) => {
+			switch (pos1) {
+				case "w":
+					return builder.setBuildProp("AutomaticSize", "X");
+
+				case "h":
+					return builder.setBuildProp("AutomaticSize", "Y");
+
+				default:
+					return builder.setBuildProp("AutomaticSize", "XY");
+			}
+		});
+	} else {
+		builder.setKey("Size");
+		builder.setBuildType(BUILD_ENUM.UDIM_2);
+
+		const resolvedValues = resolveClassValue<SizeClassName>(className, {
+			providedValues: CssConfig.getValues("size"),
 		});
 
-		switch (pos1) {
-			case "w":
-				return isPercent ? (size.xScale = value) : (size.xOffset = value);
+		classValueCallback(resolvedValues, ({ pos1, value }, isPercent) => {
+			const size = builder.initializeValues("Size", {
+				xScale: 0,
+				xOffset: 0,
+				yScale: 0,
+				yOffset: 0,
+			});
 
-			case "h":
-				return isPercent ? (size.yScale = value) : (size.yOffset = value);
+			switch (pos1) {
+				case "w":
+					return isPercent ? (size.xScale = value) : (size.xOffset = value);
 
-			default: {
-				if (isPercent) {
-					size.xScale = value;
-					size.yScale = value;
-				} else {
-					size.xOffset = value;
-					size.yOffset = value;
+				case "h":
+					return isPercent ? (size.yScale = value) : (size.yOffset = value);
+
+				default: {
+					if (isPercent) {
+						size.xScale = value;
+						size.yScale = value;
+					} else {
+						size.xOffset = value;
+						size.yOffset = value;
+					}
 				}
 			}
-		}
-	});
+		});
+	}
 };
 
 export const resolveSizeConstraintClass = (className: string, builder: PropsBuilder) => {
 	builder.setBuildType(BUILD_ENUM.VECTOR_2);
 
-	const resolvedValues = resolveClassValue<SizeConstraintClassName>(className);
+	const resolvedValues = resolveClassValue<SizeConstraintClassName>(className, {
+		providedValues: CssConfig.getValues("size"),
+	});
 
 	classValueCallback(resolvedValues, ({ pos1, pos2, value }) => {
 		const props = builder.buildChildProps;

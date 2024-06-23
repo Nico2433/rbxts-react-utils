@@ -1,4 +1,13 @@
-import type { AnyGuiObject, Color3Type, Udim2Props, Udim2Type, Vector2Props, Vector2Type } from ".";
+import type {
+	AnyGuiObject,
+	Color3Type,
+	Udim2Props,
+	Udim2Type,
+	UdimProps,
+	UdimType,
+	Vector2Props,
+	Vector2Type,
+} from ".";
 import type { PSEUDO_CLASS } from "../utils";
 
 export interface PropsObject {
@@ -48,7 +57,9 @@ type ResolveBuildPropsType<T> = {
 			? Udim2Props
 			: T[K] extends Color3Type
 				? string
-				: T[K];
+				: T[K] extends UdimType
+					? UdimProps
+					: T[K];
 };
 
 export type BuildProps = ResolveBuildPropsType<AllProps> & {
@@ -62,6 +73,11 @@ export type BuildPropsKey = keyof BuildProps;
 export interface ChildProps {
 	MinSize?: Vector2;
 	MaxSize?: Vector2;
+	CornerRadius?: UDim;
+	PaddingTop?: UDim;
+	PaddingRight?: UDim;
+	PaddingBottom?: UDim;
+	PaddingLeft?: UDim;
 }
 
 export type ChildPropsKey = keyof ChildProps;

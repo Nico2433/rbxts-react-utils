@@ -26,9 +26,11 @@ This package adds custom components that have compatibility with TailwindCSS cla
 - `VideoFrame`
 - `ViewPortFrame`
 
-## Supported PseudoClasses
+## Supported Pseudo Classes
 
 - `hover`: hover event
+
+- Note: Pseudo classes don't work with all properties that need an extra instance, like flex | padding | corner radius | size constraint
 
 ## Supported Classes
 

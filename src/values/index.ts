@@ -29,7 +29,7 @@ export const getClassNameValues = <T extends keyof ClassNameValue>(
 				const exists = value[numeric];
 				if (exists) value = exists;
 			} else {
-				value = values[secondKey];
+				value = value[secondKey];
 			}
 		}
 	}

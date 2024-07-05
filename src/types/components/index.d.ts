@@ -1,4 +1,6 @@
+export * from "./button";
 export * from "./frame";
+export * from "./input";
 export * from "./label";
 
 export type AnyGuiObject =

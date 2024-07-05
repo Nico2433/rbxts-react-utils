@@ -1,17 +1,17 @@
 import React, { useRef } from "react";
 import { useGetCssProps, useMergeEvents } from "../hooks";
-import type { ReactTextLabel } from "../types";
+import type { ReactViewportFrame } from "../types";
 import { deleteUnusedProps } from "../utils";
 import { UiCorner, UiListLayout, UiPadding, UiSizeConstraint } from "./ui";
 
-const TextLabel: React.FC<Readonly<ReactTextLabel>> = (props) => {
+const VideoFrame: React.FC<Readonly<ReactViewportFrame>> = (props) => {
 	const className = props.className ?? "";
-	const ref = props.forwardRef ?? useRef<TextLabel>();
+	const ref = props.forwardRef ?? useRef<ViewportFrame>();
 
 	const passedProps = table.clone(props);
 
-	const { cssProps, childProps } = useGetCssProps<TextLabel>(className, ref);
-	const { mergedEvents } = useMergeEvents<TextLabel>(passedProps, cssProps.Event);
+	const { cssProps, childProps } = useGetCssProps<ViewportFrame>(className, ref);
+	const { mergedEvents } = useMergeEvents<ViewportFrame>(props, cssProps.Event);
 	deleteUnusedProps(passedProps);
 
 	const totalEvents = {
@@ -20,7 +20,7 @@ const TextLabel: React.FC<Readonly<ReactTextLabel>> = (props) => {
 	};
 
 	return (
-		<textlabel ref={ref} {...cssProps} {...passedProps} Event={totalEvents}>
+		<viewportframe ref={ref} {...cssProps} {...passedProps} Event={totalEvents}>
 			{passedProps.children}
 			<UiSizeConstraint MinSize={childProps.MinSize} MaxSize={childProps.MaxSize} />
 			<UiCorner CornerRadius={childProps.CornerRadius} />
@@ -36,8 +36,8 @@ const TextLabel: React.FC<Readonly<ReactTextLabel>> = (props) => {
 				HorizontalAlignment={childProps.HorizontalAlignment}
 				VerticalAlignment={childProps.VerticalAlignment}
 			/>
-		</textlabel>
+		</viewportframe>
 	);
 };
 
-export default TextLabel;
+export default VideoFrame;

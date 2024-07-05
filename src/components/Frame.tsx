@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { useGetCssProps, useMergeEvents } from "../hooks";
 import type { ReactFrame } from "../types";
 import { deleteUnusedProps } from "../utils";
-import { UiCorner, UiPadding, UiSizeConstraint } from "./ui";
+import { UiCorner, UiListLayout, UiPadding, UiSizeConstraint } from "./ui";
 
 const Frame: React.FC<Readonly<ReactFrame>> = (props) => {
 	const className = props.className ?? "";
@@ -29,6 +29,12 @@ const Frame: React.FC<Readonly<ReactFrame>> = (props) => {
 				PaddingLeft={childProps.PaddingLeft}
 				PaddingBottom={childProps.PaddingBottom}
 				PaddingRight={childProps.PaddingRight}
+			/>
+			<UiListLayout
+				FillDirection={childProps.FillDirection}
+				Padding={childProps.Padding}
+				HorizontalAlignment={childProps.HorizontalAlignment}
+				VerticalAlignment={childProps.VerticalAlignment}
 			/>
 		</frame>
 	);

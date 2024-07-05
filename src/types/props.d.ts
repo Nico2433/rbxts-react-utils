@@ -78,6 +78,10 @@ export interface ChildProps {
 	PaddingRight?: UDim;
 	PaddingBottom?: UDim;
 	PaddingLeft?: UDim;
+	FillDirection?: "Horizontal" | "Vertical";
+	Padding?: UDim;
+	HorizontalAlignment?: "Left" | "Center" | "Right";
+	VerticalAlignment?: "Center" | "Top" | "Bottom";
 }
 
 export type ChildPropsKey = keyof ChildProps;

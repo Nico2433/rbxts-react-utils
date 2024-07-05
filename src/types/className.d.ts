@@ -20,3 +20,7 @@ export interface TextAlignClassName extends CssClassName<"text"> {
 }
 
 export interface PaddingClassName extends CssClassName<"p" | "px" | "py" | "pt" | "pr" | "pb" | "pl"> {}
+
+export interface JustifyClassName extends CssClassName<"justify"> {
+	pos2: "start" | "center" | "end";
+}

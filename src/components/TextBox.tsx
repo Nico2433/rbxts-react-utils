@@ -1,17 +1,28 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useGetCssProps, useMergeEvents } from "../hooks";
-import type { ReactTextLabel } from "../types";
+import type { ReactTextBox } from "../types";
 import { deleteUnusedProps } from "../utils";
 import { UiCorner, UiListLayout, UiPadding, UiSizeConstraint } from "./ui";
 
-const TextLabel: React.FC<Readonly<ReactTextLabel>> = (props) => {
+const TextLabel: React.FC<Readonly<ReactTextBox>> = (props) => {
 	const className = props.className ?? "";
-	const ref = props.forwardRef ?? useRef<TextLabel>();
+	const ref = props.forwardRef ?? useRef<TextBox>();
 
 	const passedProps = table.clone(props);
 
-	const { cssProps, childProps } = useGetCssProps<TextLabel>(className, ref);
-	const { mergedEvents } = useMergeEvents<TextLabel>(passedProps, cssProps.Event);
+	const { cssProps, childProps } = useGetCssProps<TextBox>(className, ref);
+	const { mergedEvents } = useMergeEvents<TextBox>(passedProps, cssProps.Event);
+
+	const onChange = props.onChange;
+	if (onChange) {
+		useEffect(() => {
+			const reference = ref.current;
+			if (!reference) return;
+
+			ref.current.GetPropertyChangedSignal("Text").Connect(() => onChange(reference));
+		}, []);
+	}
+
 	deleteUnusedProps(passedProps);
 
 	const totalEvents = {
@@ -20,7 +31,7 @@ const TextLabel: React.FC<Readonly<ReactTextLabel>> = (props) => {
 	};
 
 	return (
-		<textlabel ref={ref} {...cssProps} {...passedProps} Event={totalEvents}>
+		<textbox ref={ref} {...cssProps} {...passedProps} Event={totalEvents}>
 			{passedProps.children}
 			<UiSizeConstraint MinSize={childProps.MinSize} MaxSize={childProps.MaxSize} />
 			<UiCorner CornerRadius={childProps.CornerRadius} />
@@ -36,7 +47,7 @@ const TextLabel: React.FC<Readonly<ReactTextLabel>> = (props) => {
 				HorizontalAlignment={childProps.HorizontalAlignment}
 				VerticalAlignment={childProps.VerticalAlignment}
 			/>
-		</textlabel>
+		</textbox>
 	);
 };
 

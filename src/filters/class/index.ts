@@ -1,5 +1,9 @@
 import {
 	resolveAnchorClass,
+	resolveFlexClassName,
+	resolveGapClassName,
+	resolveItemsClassName,
+	resolveJustifyClassName,
 	resolvePaddingClass,
 	resolvePositionClass,
 	resolveZIndexClass,
@@ -9,6 +13,10 @@ import {
 	anchorPattern,
 	backgroundPattern,
 	borderPatterns,
+	flexPattern,
+	gapPattern,
+	itemsPattern,
+	justifyPattern,
 	match,
 	paddingPattern,
 	positionPattern,
@@ -38,9 +46,17 @@ export const filterClass = (className: string, builder: PropsBuilder) => {
 	// *------------------------- RESOLVERS -------------------------*//
 	if (match(className, anchorPattern)) return resolveAnchorClass(className, builder); //* Done
 
-	if (match(className, paddingPattern)) return resolvePaddingClass(className, builder);
+	if (match(className, paddingPattern)) return resolvePaddingClass(className, builder); //* Done
 
 	if (match(className, positionPattern)) return resolvePositionClass(className, builder); //* Done
 
-	if (match(className, zIndexPattern)) return resolveZIndexClass(className);
+	if (match(className, zIndexPattern)) return resolveZIndexClass(className, builder); //* Done
+
+	if (match(className, flexPattern)) return resolveFlexClassName(className, builder);
+
+	if (match(className, gapPattern)) return resolveGapClassName(className, builder);
+
+	if (match(className, justifyPattern)) return resolveJustifyClassName(className, builder);
+
+	if (match(className, itemsPattern)) return resolveItemsClassName(className, builder);
 };

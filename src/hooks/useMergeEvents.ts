@@ -3,7 +3,7 @@ import type { AnyGuiObject, PropsType, ReactComponent } from "../types";
 
 export interface CustomEvents<T extends AnyGuiObject> {
 	onHover?: ReactComponent<T>["onHover"];
-	onClick?: () => void;
+	onClick?: (rbx: T) => void;
 }
 
 export const useMergeEvents = <T extends AnyGuiObject>(
@@ -29,7 +29,7 @@ export const useMergeEvents = <T extends AnyGuiObject>(
 			}),
 			...(onClick && { MouseButton1Click: onClick }),
 		}));
-	}, []);
+	}, [onHover, onClick, events]);
 
 	return { mergedEvents };
 };

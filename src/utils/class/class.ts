@@ -8,7 +8,7 @@ export const zIndexPattern = "^z";
 
 // *---------- GENERAL CLASSES
 
-export const colorPattern = ["^%a+%-%a+%-%d+", "^%a+%-white", "^%a+%-black"];
+export const colorPattern = ["^%a+%-%a+%-%w+", "^%a+%-white", "^%a+%-black"];
 
 export const opacityPattern = ["^opacity", "^%a+%-opacity"];
 
@@ -42,3 +42,13 @@ export const textAlignPattern = ["^text%-left", "^text%-center", "^text%-right"]
 // *---------- BORDER CLASSES
 
 export const borderWidthPattern = ["^border$", "^border%-%d+"];
+
+// *---------- DISPLAY CLASSES
+
+export const flexPattern = "^flex";
+
+export const gapPattern = "^gap";
+
+export const justifyPattern = "^justify";
+
+export const itemsPattern = "^items";

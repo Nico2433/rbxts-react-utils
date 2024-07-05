@@ -1,2 +1,3 @@
+export * from "./useGetContext";
 export * from "./useGetCssProps";
-export * from "./useGetEvents";
+export * from "./useMergeEvents";

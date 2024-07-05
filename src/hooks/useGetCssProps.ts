@@ -54,7 +54,8 @@ export const useGetCssProps = <T extends AnyGuiObject>(className: string, ref: R
 					} else {
 						for (const key of childKey) {
 							const build = propsBuilder.build(buildType, propsBuilder.buildChildProps[key]);
-							if (!hasPseudoClass && build) propsBuilder.setFinalChildProp(key, build as never);
+							if (!hasPseudoClass && !typeIs(build, "nil"))
+								propsBuilder.setFinalChildProp(key, build as never);
 						}
 					}
 				} else if (key) {

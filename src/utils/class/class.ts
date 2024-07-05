@@ -18,6 +18,8 @@ export const autoPattern = "^%a+%-auto";
 
 export const textPattern = "^text";
 
+export const imagePattern = "^image";
+
 export const backgroundPattern = "^bg";
 
 export const borderPattern = "^border";
@@ -44,6 +46,8 @@ export const textAlignPattern = ["^text%-left", "^text%-center", "^text%-right"]
 export const borderWidthPattern = ["^border$", "^border%-%d+"];
 
 // *---------- DISPLAY CLASSES
+
+export const hiddenPattern = "^hidden";
 
 export const flexPattern = "^flex";
 

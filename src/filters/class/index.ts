@@ -2,6 +2,7 @@ import {
 	resolveAnchorClass,
 	resolveFlexClassName,
 	resolveGapClassName,
+	resolveHiddenClassName,
 	resolveItemsClassName,
 	resolveJustifyClassName,
 	resolvePaddingClass,
@@ -15,6 +16,8 @@ import {
 	borderPatterns,
 	flexPattern,
 	gapPattern,
+	hiddenPattern,
+	imagePattern,
 	itemsPattern,
 	justifyPattern,
 	match,
@@ -27,6 +30,7 @@ import {
 } from "../../utils";
 import { filterBackgroundClassType } from "./background";
 import { filterBorderClassType } from "./border";
+import { filterImageClassType } from "./image";
 import { filterSizeClassType } from "./size";
 import { filterTextClassType } from "./text";
 import { filterTransitionClassType } from "./transition";
@@ -40,6 +44,8 @@ export const filterClass = (className: string, builder: PropsBuilder) => {
 	if (match(className, backgroundPattern)) return filterBackgroundClassType(className, builder); //* Done
 
 	if (match(className, borderPatterns)) return filterBorderClassType(className, builder); //* Done
+
+	if (match(className, imagePattern)) return filterImageClassType(className, builder);
 
 	if (match(className, transitionPatterns)) return filterTransitionClassType(className);
 
@@ -59,4 +65,6 @@ export const filterClass = (className: string, builder: PropsBuilder) => {
 	if (match(className, justifyPattern)) return resolveJustifyClassName(className, builder);
 
 	if (match(className, itemsPattern)) return resolveItemsClassName(className, builder);
+
+	if (match(className, hiddenPattern)) return resolveHiddenClassName(builder);
 };

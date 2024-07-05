@@ -1,33 +1,33 @@
-export const anchorPattern = "^a[xy]?";
+export const anchorPattern = "^a[xy]?%-";
 
-export const paddingPattern = "^p[xy]?";
+export const paddingPattern = "^p[xy]?%-";
 
-export const positionPattern = ["^inset", "^top", "^right", "^bottom", "^left"];
+export const positionPattern = ["^inset%-", "^top%-", "^right%-", "^bottom%-", "^left%-"];
 
-export const zIndexPattern = "^z";
+export const zIndexPattern = "^z%-";
 
 // *---------- GENERAL CLASSES
 
 export const colorPattern = ["^%a+%-%a+%-%w+", "^%a+%-white", "^%a+%-black"];
 
-export const opacityPattern = ["^opacity", "^%a+%-opacity"];
+export const opacityPattern = ["^opacity%-", "^%a+%-opacity%-"];
 
 export const autoPattern = "^%a+%-auto";
 
 // *---------- FILTER CLASSES
 
-export const textPattern = "^text";
+export const textPattern = "^text%-";
 
-export const imagePattern = "^image";
+export const imagePattern = "^image%-";
 
-export const backgroundPattern = "^bg";
+export const backgroundPattern = "^bg%-";
 
 export const borderPattern = "^border";
 export const borderRadiusPattern = "^rounded";
 export const borderPatterns = [borderPattern, borderRadiusPattern];
 
-export const sizePattern = ["^size", "^[wh]"];
-export const sizeConstraintPattern = ["^min", "^max"];
+export const sizePattern = ["^size%-", "^[wh]%-"];
+export const sizeConstraintPattern = ["^min%-", "^max%-"];
 export const sizePatterns = [...sizePattern, ...sizeConstraintPattern];
 
 export const transitionPattern = "^transition";

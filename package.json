@@ -5,7 +5,7 @@
 	"main": "out/init.lua",
 	"scripts": {
 		"prepack": "pnpm run build && rm -f ./*.tgz",
-		"prepublishOnly": "pnpm run build",
+		"prepublishOnly": "pnpm run build && git push origin main",
 		"build": "rbxtsc",
 		"watch": "rbxtsc -w"
 	},

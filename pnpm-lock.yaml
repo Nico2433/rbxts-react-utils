@@ -10,17 +10,16 @@ overrides:
 importers:
 
   .:
-    dependencies:
+    devDependencies:
+      '@rbxts/compiler-types':
+        specifier: 2.3.0-types.1
+        version: 2.3.0-types.1
       '@rbxts/react':
         specifier: ^0.4.0
         version: 0.4.0
       '@rbxts/react-roblox':
         specifier: ^0.4.0
         version: 0.4.0
-    devDependencies:
-      '@rbxts/compiler-types':
-        specifier: 2.3.0-types.1
-        version: 2.3.0-types.1
       '@rbxts/services':
         specifier: ^1.5.4
         version: 1.5.4
